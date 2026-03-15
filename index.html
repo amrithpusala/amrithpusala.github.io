@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amrith Pusala</title>
+<meta name="description" content="CS @ Purdue — full-stack, AI tools, backend systems">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#08080c;--surface:#0f0f15;--border:#1a1a25;--text:#c8c8d0;--dim:#555566;
+  --accent:#e8a045;--accent2:#45b8e8;--white:#eeeef0;
+  --serif:'Instrument Serif',Georgia,serif;
+  --mono:'DM Mono',monospace;
+  --sans:'Outfit',sans-serif;
+}
+::selection{background:#e8a04530;color:var(--white)}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;font-size:15px;line-height:1.6}
+
+/* Grain overlay */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.03;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+
+/* Reveal animations */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+a{color:var(--accent);text-decoration:none;transition:color .2s}
+a:hover{color:var(--accent2)}
+
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;
+  background:rgba(8,8,12,.85);backdrop-filter:blur(20px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.scrolled{border-color:var(--border)}
+nav .container{display:flex;justify-content:space-between;align-items:center}
+nav .logo{font-family:var(--serif);font-size:20px;color:var(--white);font-style:italic}
+nav .links{display:flex;gap:28px}
+nav .links a{color:var(--dim);font-size:13px;font-family:var(--mono);letter-spacing:.5px;transition:color .2s}
+nav .links a:hover{color:var(--white)}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;position:relative}
+.hero::before{content:"";position:absolute;top:15%;right:-10%;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(232,160,69,.06) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:20%;left:-15%;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(69,184,232,.04) 0%,transparent 70%);pointer-events:none}
+.hero-label{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:2px;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px}
+.hero-label::before{content:"";width:30px;height:1px;background:var(--accent)}
+.hero h1{font-family:var(--serif);font-size:clamp(48px,8vw,80px);color:var(--white);line-height:1.05;margin-bottom:24px;font-weight:400}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:17px;color:var(--dim);max-width:520px;line-height:1.7;margin-bottom:36px}
+.hero-links{display:flex;gap:12px;flex-wrap:wrap}
+.hero-links a{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;
+  font-size:13px;font-family:var(--mono);border:1px solid var(--border);color:var(--text);transition:all .25s}
+.hero-links a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-links a svg{width:16px;height:16px}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:2px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;animation:float 2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ===== SECTIONS ===== */
+section{padding:100px 0}
+.section-label{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:3px;
+  text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:"";width:20px;height:1px;background:var(--accent)}
+.section-title{font-family:var(--serif);font-size:clamp(32px,5vw,44px);color:var(--white);margin-bottom:50px;font-weight:400}
+
+/* ===== ABOUT ===== */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
+.about-text p{margin-bottom:16px;color:var(--text);line-height:1.8}
+.about-text p strong{color:var(--white)}
+.about-details{display:flex;flex-direction:column;gap:16px}
+.detail-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border-color .3s}
+.detail-card:hover{border-color:var(--accent)}
+.detail-card .label{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:1px;margin-bottom:6px}
+.detail-card .value{color:var(--white);font-weight:500;font-size:15px}
+
+/* ===== PROJECTS ===== */
+.projects-grid{display:flex;flex-direction:column;gap:20px}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;
+  position:relative;overflow:hidden;transition:all .35s}
+.project-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.project-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .35s}
+.project-card:hover::before{opacity:1}
+.project-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.project-name{font-family:var(--serif);font-size:24px;color:var(--white);font-weight:400}
+.project-date{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.5px;white-space:nowrap;margin-left:16px;margin-top:6px}
+.project-desc{color:var(--text);margin-bottom:16px;line-height:1.7;font-size:14px}
+.project-tech{display:flex;flex-wrap:wrap;gap:6px}
+.tech-tag{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:5px;
+  background:rgba(232,160,69,.08);color:var(--accent);border:1px solid rgba(232,160,69,.15)}
+.project-links{display:flex;gap:10px;margin-top:16px}
+.project-links a{font-family:var(--mono);font-size:12px;color:var(--dim);display:flex;align-items:center;gap:5px;transition:color .2s}
+.project-links a:hover{color:var(--accent)}
+
+/* ===== EXPERIENCE ===== */
+.exp-card{display:grid;grid-template-columns:140px 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--border)}
+.exp-card:last-child{border-bottom:none}
+.exp-date{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.5px;padding-top:4px}
+.exp-role{font-size:17px;color:var(--white);font-weight:600;margin-bottom:4px}
+.exp-company{font-family:var(--mono);font-size:13px;color:var(--accent);margin-bottom:12px}
+.exp-bullets{list-style:none}
+.exp-bullets li{position:relative;padding-left:16px;margin-bottom:8px;font-size:14px;line-height:1.6;color:var(--text)}
+.exp-bullets li::before{content:"→";position:absolute;left:0;color:var(--accent)}
+
+/* ===== SKILLS ===== */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.skill-group{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border-color .3s}
+.skill-group:hover{border-color:var(--accent2)}
+.skill-group h3{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:12px}
+.skill-group p{color:var(--text);font-size:13px;line-height:1.8}
+
+/* ===== AWARDS ===== */
+.awards-list{display:flex;flex-direction:column;gap:16px}
+.award{display:flex;gap:16px;align-items:flex-start}
+.award-icon{width:36px;height:36px;min-width:36px;border-radius:8px;background:rgba(232,160,69,.1);
+  border:1px solid rgba(232,160,69,.2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.award-text{font-size:14px;line-height:1.6}
+.award-text strong{color:var(--white)}
+
+/* ===== CONTACT ===== */
+.contact-section{text-align:center;padding:120px 0}
+.contact-section h2{font-family:var(--serif);font-size:clamp(36px,6vw,52px);color:var(--white);font-weight:400;margin-bottom:16px}
+.contact-section p{color:var(--dim);font-size:16px;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
+.contact-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.contact-links a{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;
+  font-family:var(--mono);font-size:13px;border:1px solid var(--border);color:var(--text);transition:all .25s}
+.contact-links a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.contact-links a.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.contact-links a.primary:hover{background:#d4912e;transform:translateY(-2px)}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;
+  font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .about-grid{grid-template-columns:1fr}
+  .exp-card{grid-template-columns:1fr;gap:8px}
+  .exp-date{padding-top:0;margin-bottom:4px}
+  nav .links{gap:16px}
+  .hero h1{font-size:40px}
+  .skills-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .skills-grid{grid-template-columns:1fr}
+  nav .links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container">
+    <a href="#" class="logo">ap.</a>
+    <div class="links">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#experience">experience</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-label">COMPUTER SCIENCE @ PURDUE</div>
+    <h1>I'm Amrith.<br>I build things that <em>matter.</em></h1>
+    <p class="hero-sub">Full-stack developer and CS student at Purdue University with a focus on backend systems, AI-powered tools, and solving real problems with code.</p>
+    <div class="hero-links">
+      <a href="https://github.com/amrithpusala" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/amrith-pusala-546901279/" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:amrith.pusala@outlook.com">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll<span>↓</span></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">01 — About</div>
+      <h2 class="section-title">A bit about me.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>Computer Science</strong> student at <strong>Purdue University</strong> with a minor in Artificial Intelligence. I grew up in <strong>Belgium</strong> before moving to the United States, an experience that taught me to adapt quickly, think across contexts, and approach problems from multiple angles.</p>
+        <p>I'm passionate about building software that solves real problems — from <strong>AI-powered diagnostic tools</strong> analyzing 40,000+ medical cases to <strong>full-stack tournament platforms</strong> serving hundreds of participants. I care about clean architecture, thoughtful APIs, and shipping things that actually work.</p>
+        <p>When I'm not coding, you'll find me playing poker (GTO strategy enthusiast), ping pong, pool, or on evening walks thinking about what to build next.</p>
+      </div>
+      <div class="about-details reveal">
+        <div class="detail-card">
+          <div class="label">EDUCATION</div>
+          <div class="value">B.S. Computer Science, Minor in AI</div>
+        </div>
+        <div class="detail-card">
+          <div class="label">UNIVERSITY</div>
+          <div class="value">Purdue University — West Lafayette, IN</div>
+        </div>
+        <div class="detail-card">
+          <div class="label">BACKGROUND</div>
+          <div class="value">IB Diploma Programme — Belgium → Pennsylvania</div>
+        </div>
+        <div class="detail-card">
+          <div class="label">CURRENTLY</div>
+          <div class="value">ML@Purdue · Google Developer Groups · Hack the Future</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">02 — Projects</div>
+      <h2 class="section-title">What I've built.</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-name">Pratigya Tournament Platform</div>
+          <div class="project-date">Oct 2025 — Present</div>
+        </div>
+        <p class="project-desc">Architected the full REST API backend for a grassroots football tournament platform serving 400+ participants across 32 teams. Built role-based access control with JWT auth, automated eligibility pipelines across 6 Mongoose schemas, and a Haversine-formula geolocation API for intelligent match scheduling.</p>
+        <div class="project-tech">
+          <span class="tech-tag">React</span><span class="tech-tag">Node.js</span><span class="tech-tag">Express</span>
+          <span class="tech-tag">MongoDB</span><span class="tech-tag">Mongoose</span><span class="tech-tag">JWT</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-name">Purdue Personal Trainer</div>
+          <div class="project-date">Jan 2026 — Present</div>
+        </div>
+        <p class="project-desc">AI-powered fitness coaching app for Purdue students. Built the end-to-end async pipeline from Riverpod state management through Dio HTTP to Express Cloud Functions to the Gemini API, with Firestore document caching. Designed a polished chat interface with animated typing indicators and reactive plan generation.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Flutter</span><span class="tech-tag">Dart</span><span class="tech-tag">Firebase</span>
+          <span class="tech-tag">Riverpod</span><span class="tech-tag">Gemini API</span><span class="tech-tag">Cloud Functions</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-name">1-5</div>
+          <div class="project-date">Aug 2025</div>
+        </div>
+        <p class="project-desc">Social dare app built on a synchronized number-matching mechanic inspired by "What Are The Odds." Two users pick 1–5; if they match, both complete an AI-generated dare. Features an engagement-ranked video feed with a retention-based content recommendation algorithm.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Swift</span><span class="tech-tag">SwiftUI</span><span class="tech-tag">Firebase</span>
+          <span class="tech-tag">Firestore</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-name">SymptoScan</div>
+          <div class="project-date">Sep 2023 — Jun 2024</div>
+        </div>
+        <p class="project-desc">AI-powered diagnostic tool analyzing 40,000+ medical cases from the MIMIC-IV dataset. Designed a probability-based matching algorithm that ranks candidate diagnoses by weighted symptom overlap, reducing average diagnostic error rate by 12%. National 5th place at TSA.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">React</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/25sreddy/Sympto-Scan" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-name">LegalLens</div>
+          <div class="project-date">Nov 2023 — Jan 2024</div>
+        </div>
+        <p class="project-desc">NLP text-simplification pipeline using spaCy and Hugging Face Transformers to convert complex legal documents into plain language, scored against Lexile readability benchmarks. Built an interactive chatbot interface in React with Firebase. Congressional App Challenge 2nd Place.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">React</span><span class="tech-tag">spaCy</span>
+          <span class="tech-tag">Hugging Face</span><span class="tech-tag">Firebase</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">03 — Experience</div>
+      <h2 class="section-title">Where I've worked.</h2>
+    </div>
+    <div class="reveal">
+      <div class="exp-card">
+        <div class="exp-date">Nov 2023 —<br>Aug 2025</div>
+        <div>
+          <div class="exp-role">Coding Instructor</div>
+          <div class="exp-company">Code Ninjas — Downingtown, PA</div>
+          <ul class="exp-bullets">
+            <li>Designed and delivered project-based curriculum in Java, Python, and JavaScript for 70+ students, providing 1-on-1 debugging support and mentorship.</li>
+            <li>Drove 17+ new enrollments through improved student engagement, structured lesson planning, and parent communication.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">04 — Skills</div>
+      <h2 class="section-title">What I work with.</h2>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-group">
+        <h3>Languages</h3>
+        <p>Python, JavaScript, TypeScript, Java, C, Dart, Swift, SQL, HTML/CSS</p>
+      </div>
+      <div class="skill-group">
+        <h3>Frameworks</h3>
+        <p>React, Node.js, Express.js, Flutter, Tailwind CSS, Riverpod, Mongoose</p>
+      </div>
+      <div class="skill-group">
+        <h3>Data & ML</h3>
+        <p>NumPy, pandas, spaCy, Hugging Face Transformers, Matplotlib</p>
+      </div>
+      <div class="skill-group">
+        <h3>Cloud & Databases</h3>
+        <p>Firebase, Firestore, MongoDB, Google Cloud, Cloud Functions</p>
+      </div>
+      <div class="skill-group">
+        <h3>Tools</h3>
+        <p>Git/GitHub, VS Code, IntelliJ, Figma, Postman, Docker, ESLint</p>
+      </div>
+      <div class="skill-group">
+        <h3>Currently Learning</h3>
+        <p>NeetCode 150, Advanced Python, Open Source Contributions, System Design</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">05 — Recognition</div>
+      <h2 class="section-title">Awards & achievements.</h2>
+    </div>
+    <div class="awards-list reveal">
+      <div class="award">
+        <div class="award-icon">🏆</div>
+        <div class="award-text"><strong>TSA National Conference — 5th Place</strong> (Software Development) and <strong>Top 12</strong> (Data Science), 2024. Pennsylvania State <strong>1st Place</strong> in both categories.</div>
+      </div>
+      <div class="award">
+        <div class="award-icon">🏛️</div>
+        <div class="award-text"><strong>Congressional App Challenge (PA-06) — 2nd Place.</strong> Recognized by U.S. Representative Chrissy Houlahan for LegalLens.</div>
+      </div>
+      <div class="award">
+        <div class="award-icon">🎓</div>
+        <div class="award-text"><strong>International Baccalaureate Diploma Programme.</strong> IB Math HL Analysis & Approaches. Economics IA on market subsidies. Extended Essay on AI in job recruitment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center">06 — Contact</div>
+      <h2>Let's connect.</h2>
+      <p>I'm always open to new opportunities, conversations about tech, or just saying hello.</p>
+      <div class="contact-links">
+        <a href="mailto:amrith.pusala@outlook.com" class="primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Email me
+        </a>
+        <a href="https://github.com/amrithpusala" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/amrith-pusala-546901279/" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">Built by Amrith Pusala — 2026</div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
