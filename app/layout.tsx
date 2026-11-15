@@ -1,44 +1,20 @@
 import type { Metadata } from 'next'
-import { Fraunces, Outfit, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-fraunces',
-  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
-})
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-outfit',
-  weight: ['300', '400', '500', '600'],
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-jetbrains',
-  weight: ['300', '400', '500'],
-})
+const description =
+  'Computer science at Purdue. Research, experience, and projects.'
 
 export const metadata: Metadata = {
-  title: 'Amrith Pusala — ML Engineer',
-  description: 'CS @ Purdue · ML Engineer · Building AI systems that ship',
+  title: 'Amrith Pusala',
+  description,
   openGraph: {
     title: 'Amrith Pusala',
-    description: 'CS @ Purdue with a minor in AI. Building full-stack ML systems.',
+    description,
     type: 'website',
     url: 'https://amrithpusala.github.io',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Amrith Pusala',
-    description: 'CS @ Purdue with a minor in AI. Building full-stack ML systems.',
-  },
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F338;</text></svg>",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230c0c0c'/><text x='50' y='72' font-family='monospace' font-size='70' font-weight='700' text-anchor='middle' fill='%23e8b04a'>$</text></svg>",
   },
 }
 
@@ -48,10 +24,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
-    >
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        />
+      </head>
       <body>{children}</body>
     </html>
   )
