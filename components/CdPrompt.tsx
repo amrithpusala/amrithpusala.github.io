@@ -6,6 +6,9 @@ import { useState, type KeyboardEvent } from 'react'
 const TARGETS: Record<string, string> = {
   research: 'research',
   experience: 'experience',
+  professional: 'experience',
+  'professional-experience': 'experience',
+  'professional experience': 'experience',
   involvement: 'involvement',
   projects: 'projects',
   honors: 'honors',

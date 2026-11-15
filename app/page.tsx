@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import CdPrompt from '@/components/CdPrompt'
+import SectionRail from '@/components/SectionRail'
 
 /* ------------------------------------------------------------------ */
 /* Content. Edit here; the layout below renders whatever is listed.    */
@@ -7,8 +8,8 @@ import CdPrompt from '@/components/CdPrompt'
 
 const DIRECTORIES = [
   { href: '#research', name: 'research/', count: '1 lab' },
-  { href: '#experience', name: 'experience/', count: '3 roles' },
-  { href: '#involvement', name: 'involvement/', count: '3 orgs' },
+  { href: '#experience', name: 'professional-experience/', count: '2 roles' },
+  { href: '#involvement', name: 'involvement/', count: '4 orgs' },
   { href: '#projects', name: 'projects/', count: '4 projects' },
   { href: '#honors', name: 'honors/', count: '3 awards' },
 ]
@@ -62,6 +63,9 @@ const EXPERIENCE: Entry[] = [
     role: 'Software engineering intern, DataAgentX',
     body: 'Owned the natural-language feature of an LLM agent that turns plain-English requests into ETL/ELT pipelines across PostgreSQL, Snowflake, and Salesforce. Merged 8 PRs in 6 weeks, built 14 typed MCP tools, and fixed a silent data-loss bug with 26 regression tests.',
   },
+]
+
+const INVOLVEMENT: Entry[] = [
   {
     org: 'Hack the Future at Purdue',
     date: 'Sep 2025 to present',
@@ -79,9 +83,6 @@ const EXPERIENCE: Entry[] = [
       },
     ],
   },
-]
-
-const INVOLVEMENT: Entry[] = [
   {
     org: 'ML@Purdue',
     date: 'Jan 2026 to present',
@@ -220,13 +221,14 @@ function EntryBlock({ entry }: { entry: Entry }) {
 export default function Home() {
   return (
     <div className="wrap">
+      <SectionRail />
       <section id="top" className="landing">
         <p className="dim ln" style={delay(150)}>
           amrith@purdue:~<span className="p"> $</span> whoami
         </p>
         <div className="who ln" style={delay(550)}>
           <h1>Amrith Pusala</h1>
-          <span className="dim">computer science at Purdue</span>
+          <span className="dim">cs + math @ Purdue</span>
         </div>
         <p className="dim ln" style={delay(1000)}>
           amrith@purdue:~<span className="p"> $</span> ls -l
@@ -290,7 +292,7 @@ export default function Home() {
         </section>
 
         <section id="experience" className="section">
-          <Prompt>ls experience/</Prompt>
+          <Prompt>ls professional-experience/</Prompt>
           <div className="entries">
             {EXPERIENCE.map((entry) => (
               <EntryBlock key={entry.org} entry={entry} />

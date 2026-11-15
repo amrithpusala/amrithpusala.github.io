@@ -120,7 +120,7 @@ h3 {
 }
 
 .dir .name {
-  flex: 0 0 150px;
+  flex: 0 0 262px;
   font-size: 17px;
   font-weight: 600;
 }
@@ -189,8 +189,9 @@ h3 {
 
 .section > h2 {
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: clamp(17px, 2.2vw, 20px);
   font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--bright);
 }
 
@@ -392,6 +393,80 @@ h3 {
   margin-left: auto;
 }
 
+/* ---------- section rail ---------- */
+
+/* Fixed guide in the right gutter. Only shown when the gutter has room. */
+
+.rail {
+  --step: 30px;
+  position: fixed;
+  top: 50%;
+  right: max(28px, calc(50% - 660px));
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 16px;
+  border-right: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(10px, -50%);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    visibility 0s linear 0.35s;
+}
+
+.rail.shown {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    visibility 0s;
+}
+
+.rail a {
+  height: var(--step);
+  display: flex;
+  align-items: center;
+  color: var(--dim);
+  text-decoration: none;
+  transition:
+    color 0.25s ease,
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.rail a:hover {
+  color: var(--bright);
+}
+
+.rail a.on {
+  color: var(--bright);
+  transform: translateX(-6px);
+}
+
+/* the marker that slides along the line to the current section */
+.rail-mark {
+  position: absolute;
+  top: 6px;
+  right: -2px;
+  width: 3px;
+  height: calc(var(--step) - 12px);
+  background: var(--accent);
+  transform: translateY(calc(var(--at, 0) * var(--step)));
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (min-width: 1240px) {
+  .rail {
+    display: flex;
+  }
+}
+
 /* ---------- motion ---------- */
 
 @keyframes line-in {
@@ -435,6 +510,13 @@ h3 {
   html {
     scroll-behavior: auto;
   }
+
+  .rail,
+  .rail.shown,
+  .rail a,
+  .rail-mark {
+    transition: none;
+  }
 }
 
 @media (max-width: 520px) {
@@ -444,5 +526,21 @@ h3 {
 
   .dir .perm {
     display: none;
+  }
+
+  .dir {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0 16px;
+  }
+
+  .dir .name {
+    flex: 0 1 auto;
+    font-size: 15px;
+  }
+
+  .dir .count {
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 }
